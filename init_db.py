@@ -57,3 +57,4 @@ finally:
     my_cursor.execute("CREATE TABLE t34_tank_offensive (name VARCHAR(200),damage INTEGER(10))")
     my_cursor.execute("INSERT INTO t34_tank_offensive (name,damage) VALUES ('Cannon', 32)")
 mysql_db.commit()
+
