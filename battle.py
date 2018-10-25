@@ -1,19 +1,20 @@
-from battle_details import *
+from battle_results_db import *
+from create_databases import *
+from populate_initial_db import *
+from populate_results_db import *
 
 
-coin_flip()
+def create():
+    create_databases()
+    populate_results()
+    populate_initial_stats()
 
-x = 1
-print("Round" + " " + str(x) + "!" )
-round()
-print("End of Round" + " " + str(x) + ".")
-
-
-
+def write():
+    write_results()
 
 
 
-
+write()
 
 
 
