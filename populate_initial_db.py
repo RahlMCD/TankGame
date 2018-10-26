@@ -34,7 +34,6 @@ def populate_initial_stats():
         my_cursor.execute( "INSERT INTO panzer_tank_offensive (name,damage) VALUES ('Cannon', 33)")
     mysql_db.commit()
 
-
     # This will include the defensive capabilities of the t34 tank
     my_cursor = mysql_db.cursor()
     try:
@@ -48,7 +47,6 @@ def populate_initial_stats():
                                ('Back Side Armor', 400)]
         my_cursor.executemany(t34_insert_sql, t34_defensive_stats)
     mysql_db.commit()
-
 
     # This will include the offensive capabilities of the t34 tank
     my_cursor = mysql_db.cursor()

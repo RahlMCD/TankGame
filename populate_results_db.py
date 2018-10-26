@@ -4,7 +4,7 @@ def populate_results():
     results_db = mysql.connector.connect(
         host = 'localhost',
         user = 'root',
-        password = 'password',
+        password="password",
         database = "results_db"
     )
     my_cursor = results_db.cursor()

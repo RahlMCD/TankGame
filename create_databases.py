@@ -6,7 +6,7 @@ def create_databases():
     results_db = mysql.connector.connect(
         host = 'localhost',
         user = 'root',
-        password = 'passsword'
+        password="password"
     )
     my_cursor = results_db.cursor()
     try:

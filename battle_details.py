@@ -5,26 +5,26 @@ import mysql.connector
 mysql_results = mysql.connector.connect(
     host="localhost",
     user="root",
-    password = "password",
+    password ="password",
     database="results_db"
 )
+
+# This will retrieve the defensive specs for the tanks
+my_cursor = mysql_results.cursor()
+my_cursor.execute("SELECT life FROM battle_results_panzer")
+panzer_defensive_stats = [item[0] for item in my_cursor.fetchall()]
+
+
+my_cursor.execute("SELECT life FROM battle_results_t34")
+t34_defensive_stats = [item[0] for item in my_cursor.fetchall()]
+
 
 mysql_stats = mysql.connector.connect(
     host="localhost",
     user="root",
-    password = "password",
+    password="password",
     database="tank_stats_db"
 )
-# This will retrieve the defensive specs for the tanks
-my_cursor = mysql_stats.cursor()
-my_cursor.execute("SELECT life FROM panzer_tank_defensive")
-panzer_defensive_stats = [item[0] for item in my_cursor.fetchall()]
-
-
-my_cursor.execute("SELECT life FROM t34_tank_defensive")
-t34_defensive_stats = [item[0] for item in my_cursor.fetchall()]
-
-
 
 # This will retrieve damage stats for tanks
 my_cursor = mysql_stats.cursor()
@@ -35,6 +35,7 @@ panzer_damage = list(map(int, [item[0] for item in my_cursor.fetchall()]))
 my_cursor = mysql_stats.cursor()
 my_cursor.execute("SELECT damage FROM t34_tank_offensive")
 t34_damage = list(map(int, [item[0] for item in my_cursor.fetchall()]))
+
 panzer_front_armor = panzer_defensive_stats[0]
 panzer_left_armor = panzer_defensive_stats[1]
 panzer_right_armor = panzer_defensive_stats[2]
@@ -45,11 +46,11 @@ t34_left_armor = t34_defensive_stats[1]
 t34_right_armor = t34_defensive_stats[2]
 t34_rear_armor = t34_defensive_stats[3]
 
+
 # This will select which tank fires first
 def coin_flip():
-    panzer_tank = 1
     flip = random.randint(1,2)
-    if flip == panzer_tank:
+    if flip == 1:
         first_to_shoot = 1
         # We ll name panzer as 1
     else:
@@ -77,10 +78,21 @@ def hit_chance(author, receiver):
         return False
 
 
+def winner():
+    battle = opening_round()
+    panzer_stats = battle[0]
+    t34_stats = battle[1]
+    if panzer_stats[0] and panzer_stats[1] and panzer_stats[2] and panzer_stats[3] <= 0:
+        print(" T34 Tank has won!")
+    elif t34_stats[0] and t34_stats[1] and t34_stats[2] and t34_stats[3] <= 0:
+        print("Panzer Tank has won!")
+
+
 def opening_round():
     panzer_end_stats = []
     t34_end_stats = []
-    if coin_flip() == 1:
+    decision = coin_flip()
+    if decision == 1:
         author = "Panzer"
         receiver = 'T34'
         if hit_chance(author, receiver) is True:
@@ -155,7 +167,7 @@ def opening_round():
             print("MISS")
             panzer_end_stats.insert(3, panzer_rear_armor)
 
-    elif coin_flip() == 2:
+    elif decision == 2:
         author = "T34"
         receiver = 'Panzer'
         if hit_chance(author, receiver) is True:
@@ -231,9 +243,7 @@ def opening_round():
             t34_end_stats.insert(3, t34_rear_armor)
 
     panzer = panzer_end_stats
-    print(panzer)
     t34 = t34_end_stats
-    print(t34)
     return panzer, t34
 
 
